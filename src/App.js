@@ -153,7 +153,7 @@ const ReportsPage = ({ history, isAuthReady, reportPeriod, setReportPeriod, repo
 const App = () => {
     // State variables for Firebase instances and user ID
     const [db, setDb] = useState(null);
-    const [auth, setAuth] = useState(null);
+    // Removed 'auth' state variable as it was unused
     const [userId, setUserId] = useState(null);
     const [isAuthReady, setIsAuthReady] = useState(false);
 
@@ -195,10 +195,10 @@ const App = () => {
             // Initialize Firebase app
             const app = initializeApp(firebaseConfig);
             const firestore = getFirestore(app);
-            const authentication = getAuth(app);
+            const authentication = getAuth(app); // Get auth instance directly
 
             setDb(firestore);
-            setAuth(authentication);
+            // Removed setAuth(authentication); as 'auth' state is unused
 
             // Set default date for manual entries to today
             const today = new Date();
@@ -208,7 +208,7 @@ const App = () => {
             setManualDate(`${year}-${month}-${day}`);
             setReportStartDate(`${year}-${month}-${day}`); // Set default report start date to today
 
-            // Listen for authentication state changes
+            // Listen for authentication state changes using the directly obtained 'authentication' instance
             const unsubscribeAuth = onAuthStateChanged(authentication, async (user) => {
                 if (user) {
                     setUserId(user.uid);
